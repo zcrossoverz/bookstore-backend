@@ -4,6 +4,9 @@ const config = {
         origins: [
             "http://localhost:8081"
         ]
+    },
+    db: {
+        url: "mongodb://localhost:27017/bookstore"
     }
 };
 
