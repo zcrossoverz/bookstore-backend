@@ -3,5 +3,5 @@ exports.register = async (req, res) => {
 };
 
 exports.login = async (req, res) => {
-    res.send({ message: "registr"});
+    res.send({ message: "login"});
 };
