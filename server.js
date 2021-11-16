@@ -3,7 +3,7 @@ const cors = require("cors");
 const config = require("./app/config");
 const { BadRequestError } = require("./app/helpers/error");
 
-
+const setUpCartRoutes = require("./app/routes/cart.route");
 const setUpAuthRoutes = require("./app/routes/auth.route");
 
 const app = express();
@@ -35,6 +35,7 @@ app.get("/", (req, res, next) => {
 });
 
 setUpAuthRoutes(app);
+setUpCartRoutes(app);
 
 app.use((req, res, next) => {
     next(new BadRequestError(404, "Resource not found"));

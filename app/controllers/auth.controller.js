@@ -2,6 +2,8 @@ const bcryptjs = require("bcryptjs");
 const handle = require("../helpers/promise");
 const { BadRequestError } = require("../helpers/error");
 const { User } = require("../models");
+const jwt = require("jsonwebtoken");
+const config = require("../config");
 
 exports.register = async (req, res, next) => {
     // res.send(req.body);
@@ -52,5 +54,14 @@ exports.login = async (req, res, next) => {
         return next(new BadRequestError(401, "Wrong password"));
     }
 
-    res.send({ message: "dang nhap thanh cong" });
+    const token = jwt.sign({ id: user.id }, config.jwt.secret, {
+        expiresIn: 86400
+    });
+
+    res.status(200).send({
+        id: user._id,
+        username: user.username,
+        email: user.email,
+        accessToken: token,
+    });
 };
