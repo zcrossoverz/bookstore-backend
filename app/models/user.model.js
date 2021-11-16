@@ -1,6 +1,6 @@
 module.exports = mongoose => {
     const schema = mongoose.Schema({
-        name:{
+        username:{
             type: String,
             required: true,
             unique: true
@@ -14,6 +14,18 @@ module.exports = mongoose => {
             required: true,
             unique: true
         },
+        address: {
+            type: String,
+            default: ""
+        },
+        phone: {
+            type: String,
+            default: "+84"
+        },
+        isAdmin: {
+            type: Boolean,
+            default: false
+        }
         
     },
     {

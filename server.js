@@ -34,6 +34,8 @@ app.get("/", (req, res, next) => {
     res.send({ message: "Hello world" });
 });
 
+setUpAuthRoutes(app);
+
 app.use((req, res, next) => {
     next(new BadRequestError(404, "Resource not found"));
 });
@@ -45,7 +47,6 @@ app.use((err, req, res, next) => {
     });
 });
 
-setUpAuthRoutes(app);
 
 const PORT = config.app.port;
 app.listen(PORT, () => {
