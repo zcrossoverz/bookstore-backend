@@ -11,7 +11,8 @@ module.exports = (app) => {
     router.patch("/increase/:id", cart.increase);
     router.get("/degree/:id", cart.decrease);
     router.use(middlewares.verifyToken);
-    router.get("/checkout", cart.checkout);
+    router.post("/checkout", cart.checkout);
+    router.post("/get_order", cart.getAllOrder);
     
     app.use("/api/cart", router);
 };

@@ -1,7 +1,7 @@
 const bcryptjs = require("bcryptjs");
 const handle = require("../helpers/promise");
 const { BadRequestError } = require("../helpers/error");
-const { User } = require("../models");
+const { User, Order } = require("../models");
 const jwt = require("jsonwebtoken");
 const config = require("../config");
 
@@ -14,9 +14,12 @@ exports.register = async (req, res, next) => {
         address: req.body.address,
         phone: req.body.phone
     });
-
-
     const [error] = await handle(user.save());
+    
+    await handle(new Order({
+        username: req.body.username,
+        order: []
+    }).save());
     if(error){
         let statusCode = 400;
         let { username = {}, email = {}, password = {} } = error.errors;
