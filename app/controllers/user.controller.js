@@ -80,3 +80,14 @@ exports.delete = async (req, res, next) => {
     }
     return res.send({ message: 'User was deleted successfully'});
 };
+
+// delete all user
+exports.deleteAll = async (req, res, next) => {
+    const [error, data] = await handle(User.deleteMany({}));
+    if(error){
+        return next(new BadRequestError(500, 'An error ocurred while removing all users'));
+    }
+    return res.send({
+        message: `${data.deletedCount} users were deleted successfully`
+    });
+};

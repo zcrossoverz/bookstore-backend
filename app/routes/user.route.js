@@ -9,7 +9,7 @@ module.exports = (app) => {
     router.use(middlewares.verifyToken);
     router.post("/info", user.getInfo);
     router.post("/:id",user.updateInfo);
-    router.delete("/:id", user.getInfo);
+    router.post("/deleteAll", [middlewares.checkIsAdmin], user.deleteAll);
 
     app.use("/api/user", router);
 };
