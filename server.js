@@ -5,6 +5,7 @@ const { BadRequestError } = require("./app/helpers/error");
 
 const setUpCartRoutes = require("./app/routes/cart.route");
 const setUpAuthRoutes = require("./app/routes/auth.route");
+const setUpUserRoutes = require("./app/routes/user.route");
 
 const app = express();
 
@@ -36,6 +37,7 @@ app.get("/", (req, res, next) => {
 
 setUpAuthRoutes(app);
 setUpCartRoutes(app);
+setUpUserRoutes(app);
 
 app.use((req, res, next) => {
     next(new BadRequestError(404, "Resource not found"));
