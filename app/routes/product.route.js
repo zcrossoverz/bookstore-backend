@@ -7,6 +7,8 @@ module.exports = (app) => {
 
     router.get("/", product.getAllProduct);
     router.get("/:id", product.getProduct);
+    router.put("/hot/:id", product.setProductHot);
+    router.put("/unset_hot/:id", product.unSetProductHot);
     router.use(middlewares.verifyToken);
     router.post("/add", product.addProduct);
     router.delete("/:id", product.deleteProduct);

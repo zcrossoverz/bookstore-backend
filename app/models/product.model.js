@@ -24,6 +24,11 @@ module.exports = mongoose => {
         number: {
             type: Number,
             required: true
+        },
+        hot: {
+            type: Boolean,
+            required: true,
+            default: false
         }
         
     },

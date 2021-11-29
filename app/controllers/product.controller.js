@@ -23,7 +23,7 @@ exports.addProduct = async (req, res, next) => {
         return next(new BadRequestError(statusCode, errorMessage));
     }
    res.send({ message:"add product successfully" });
-}
+};
 
 exports.getAllProduct = async (req, res, next) => {
    
@@ -33,7 +33,7 @@ exports.getAllProduct = async (req, res, next) => {
     }
 
     return res.send(data);
-}
+};
 
 exports.getProduct = async (req, res, next) => {
     const condition = {
@@ -45,7 +45,35 @@ exports.getProduct = async (req, res, next) => {
     }
 
     return res.send(data);
-}
+};
+
+exports.setProductHot = async (req, res, next) => {
+    const condition = {
+        _id: req.params.id
+    };
+    const [error, data] = await handle(Product.findOneAndUpdate(condition, {hot:true}, {
+        new: true
+    }));
+    if(error){
+        return next(new BadRequestError(500, 'An error occured while retrieving info'));
+    }
+
+    return res.send(data);
+};
+
+exports.unSetProductHot = async (req, res, next) => {
+    const condition = {
+        _id: req.params.id
+    };
+    const [error, data] = await handle(Product.findOneAndUpdate(condition, {hot:false}, {
+        new: true
+    }));
+    if(error){
+        return next(new BadRequestError(500, 'An error occured while retrieving info'));
+    }
+
+    return res.send(data);
+};
 
 exports.deleteProduct = async (req, res, next) => {
     const condition = {
@@ -59,7 +87,7 @@ exports.deleteProduct = async (req, res, next) => {
         return next(new BadRequestError(404, `Not found product with id=${req.params.id}`));
     }
     return res.send({ message: 'Product was deleted successfully'});
-}
+};
 
 exports.deleteAllProduct = async (req, res, next) => {
 
@@ -70,4 +98,4 @@ exports.deleteAllProduct = async (req, res, next) => {
     return res.send({
         message: `${data.deletedCount} products were deleted successfully`
     });
-}
+};
