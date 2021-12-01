@@ -1,25 +1,28 @@
-const { User, Order } = require("../models");
+const { Order } = require("../models");
 const handle = require("../helpers/promise");
 const { BadRequestError } = require("../helpers/error");
 
-exports.add = async (req, res, next) => {
+exports.clearOrder = async (req, res, next) => {
+    const [error, order] = await handle(
+        Order.findOne({
+            username: req.body.username
+        }).exec()
+    );
+    if (error) {
+        console.log(error);
+        return next(new BadRequestError(500));
+    }
+    if (!order) {
+        return next(new BadRequestError(401, "Username not exist!"));
+    }
+    order.order = [];
+    const [err] = await handle(order.save());
 
-}
+    if(err){
+        return next(new BadRequestError(500, "Error when update order: "+err));
+    }
 
-exports.delete = async (req, res, next) => {
-    
-}
-
-exports.deleteAll = async (req, res, next) => {
-    
-}
-
-exports.increase = async (req, res, next) => {
-    
-}
-
-exports.decrease = async (req, res, next) => {
-    res.send({ message: "checkout" });
+    res.send({ message:"update successfully" });
 }
 
 exports.checkout = async (req, res, next) => {
@@ -39,11 +42,12 @@ exports.checkout = async (req, res, next) => {
     order.order.push(
         {
             id: req.body.id,
-            name: req.body.name,
+            title: req.body.title,
             time_order: Date.now(),
             number: req.body.number,
             price: req.body.price,
-            total: req.body.total
+            total: req.body.total,
+            cover: req.body.cover
         }
     );
     const [err] = await handle(order.save());
@@ -55,11 +59,27 @@ exports.checkout = async (req, res, next) => {
     res.send({ message:"update successfully" });
 }
 
-exports.getAllOrder = async (req, res, next) => {
+exports.getOrder = async (req, res, next) => {
     const [error, order] = await handle(
         Order.findOne({
             username: req.body.username
         }).exec()
+    );
+    if (error) {
+        console.log(error);
+        return next(new BadRequestError(500, "Error when get order: "+error));
+    }
+    if (!order) {
+        return next(new BadRequestError(401, "Username not exist!"));
+    }
+
+
+    res.send(order);
+}
+
+exports.getAllOrder = async (req, res, next) => {
+    const [error, order] = await handle(
+        Order.find({})
     );
     if (error) {
         console.log(error);

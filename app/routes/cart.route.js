@@ -5,10 +5,11 @@ const middlewares = require("../middlewares");
 module.exports = (app) => {
     let router = express.Router();
 
-    router.post("/", cart.add);
     router.use(middlewares.verifyToken);
     router.post("/checkout", cart.checkout);
-    router.post("/get_order", cart.getAllOrder);
+    router.post("/clear", cart.clearOrder);
+    router.post("/get_order", cart.getOrder);
+    router.get("/get_all_order", cart.getAllOrder);
     
     app.use("/api/cart", router);
 };

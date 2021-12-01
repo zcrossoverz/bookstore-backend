@@ -9,7 +9,10 @@ module.exports = mongoose => {
                 id: {
                     type: String
                 },
-                name: {
+                title: {
+                    type: String
+                },
+                cover: {
                     type: String
                 },
                 time_order: {
